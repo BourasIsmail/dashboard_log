@@ -19,18 +19,21 @@ export default function RootLayout({
     return (
         <html lang="fr">
         <body className={inter.className}>
-        <header className="border-b">
-            <div className="container mx-auto py-4 px-3 flex items-center justify-between">
+        <header className=" border-b border-gray-300 bg-blue-600 px-3">
+            <div className="container mx-auto py-4 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <Link href="/" className="flex items-center gap-2 text-sm font-medium">
+                    <Link
+                        href="/"
+                        className="flex items-center gap-2 text-lg font-bold text-white hover:text-blue-200 transition-colors"
+                    >
                         <Home className="h-4 w-4" />
                         Accueil
                     </Link>
                 </div>
-                <div className="text-lg font-bold">Tableau de bord des données</div>
+                <div className="text-lg font-bold text-white">Tableau de bord GMAP</div>
             </div>
         </header>
-        <main className="px-3">{children}</main>
+        <main className="bg-white min-h-screen px-3">{children}</main>
         </body>
         </html>
     )

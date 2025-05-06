@@ -114,9 +114,28 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Alternating row colors for tables */
+  .table-row-alternate:nth-child(even) {
+    @apply bg-[#f9fafb];
+  }
+
+  /* Button hover states */
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-[#1d4ed8] transition-colors;
+  }
+
+  /* Success and error states */
+  .status-success {
+    @apply text-[#10b981];
+  }
+
+  .status-error {
+    @apply text-[#ef4444];
   }
 }
