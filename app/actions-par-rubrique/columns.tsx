@@ -5,45 +5,27 @@ import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { formatDate, formatCurrency } from "@/lib/utils"
 
-export type Engagement = {
+export type ActionsParRubrique = {
+    typeDep: string
+    TYPELIGNE: string
     id: number
     Id_ParagrapheBudget_AnneeBudgetaire: number
-    Id_Marche_Execution: number
-    Id_Ligne_Source: string
-    Id_Type_Engagement: number
-    TypeEngagement_IntituleFr: string
-    Id_Engagement_Report: number
-    Id_Prestataire: number
-    Id_PMN: number
-    Id_Sous_Ordonnateur: number
-    numero: string
-    montant: number
+    Numero: string
+    Montant: number
     objet: string
-    Date_Effet: string
-    Date_Visa: string
-    LigneCCGN: string
-    Id_Paragraphe_Budget: number
-    Id_LigneNN: string
-    budget: string
-    Annee: string
-    Prestataire_IntituleFr: string
-    RIB: string
-    DomicileFr: string
-    totalInscrit: number
-    codeLigne: string
-    ParagrapheBudget_AnneeBudgetaire_IntituleFr: string
-    typeBudget: string
-    sousOrdonnateur_Intitulefr: string
+    Date_effet: string
+    Id_Sous_Ordonnateur: number
+    Id_Engagement: number
 }
 
-export const columns: ColumnDef<Engagement>[] = [
+export const columns: ColumnDef<ActionsParRubrique>[] = [
     {
         accessorKey: "id",
         header: "ID",
         size: 80,
     },
     {
-        accessorKey: "numero",
+        accessorKey: "Numero",
         header: ({ column }) => {
             return (
                 <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
@@ -54,17 +36,17 @@ export const columns: ColumnDef<Engagement>[] = [
         },
     },
     {
-        accessorKey: "TypeEngagement_IntituleFr",
-        header: "Type d'engagement",
+        accessorKey: "typeDep",
+        header: "Type Dépense",
         filterFn: "includesString",
     },
     {
-        accessorKey: "Prestataire_IntituleFr",
-        header: "Prestataire",
+        accessorKey: "TYPELIGNE",
+        header: "Type Ligne",
         filterFn: "includesString",
     },
     {
-        accessorKey: "montant",
+        accessorKey: "Montant",
         header: ({ column }) => {
             return (
                 <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
@@ -74,7 +56,7 @@ export const columns: ColumnDef<Engagement>[] = [
             )
         },
         cell: ({ row }) => {
-            const amount = Number.parseFloat(row.getValue("montant"))
+            const amount = Number.parseFloat(row.getValue("Montant"))
             return formatCurrency(amount)
         },
     },
@@ -85,7 +67,7 @@ export const columns: ColumnDef<Engagement>[] = [
         filterFn: "includesString",
     },
     {
-        accessorKey: "Date_Effet",
+        accessorKey: "Date_effet",
         header: ({ column }) => {
             return (
                 <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
@@ -95,29 +77,15 @@ export const columns: ColumnDef<Engagement>[] = [
             )
         },
         cell: ({ row }) => {
-            return formatDate(row.getValue("Date_Effet"))
+            return formatDate(row.getValue("Date_effet"))
         },
     },
     {
-        accessorKey: "Date_Visa",
-        header: "Date visa",
-        cell: ({ row }) => {
-            return formatDate(row.getValue("Date_Visa"))
-        },
+        accessorKey: "Id_Sous_Ordonnateur",
+        header: "ID Sous-Ordonnateur",
     },
     {
-        accessorKey: "sousOrdonnateur_Intitulefr",
-        header: "Sous-ordonnateur",
-        filterFn: "includesString",
-    },
-    {
-        accessorKey: "ParagrapheBudget_AnneeBudgetaire_IntituleFr",
-        header: "Paragraphe budget",
-        filterFn: "includesString",
-    },
-    {
-        accessorKey: "Annee",
-        header: "Année",
-        filterFn: "includesString",
+        accessorKey: "Id_Engagement",
+        header: "ID Engagement",
     },
 ]
