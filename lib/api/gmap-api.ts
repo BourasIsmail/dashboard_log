@@ -154,12 +154,12 @@ export async function getMarcheExecutionView() {
                 ,[total_InterMor]
                 ,[APayer]
         FROM [MarchesPubliques].[dbo].[MarcheExecution_View]
-            Numero LIKE '%2020%'
-            OR Numero LIKE '%2021%'
-            OR Numero LIKE '%2022%'
-            OR Numero LIKE '%2023%'
-            OR Numero LIKE '%2024%'
-            OR Numero LIKE '%2025%'
+        WHERE Numero LIKE '%2020%'
+           OR Numero LIKE '%2021%'
+           OR Numero LIKE '%2022%'
+           OR Numero LIKE '%2023%'
+           OR Numero LIKE '%2024%'
+           OR Numero LIKE '%2025%'
         ORDER BY
             [Id_Marche_Execution],
             [Numero]
