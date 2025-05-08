@@ -10,12 +10,7 @@ const sqlConfig = {
     options: {
         encrypt: false, // Pour les connexions locales ou sans SSL
         trustServerCertificate: true, // Nécessaire pour les environnements locaux
-    },
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000,
-    },
+    }
 }
 
 // Fonction pour exécuter une requête SQL
@@ -154,55 +149,51 @@ export async function getMarcheExecutionView() {
                 ,[total_InterMor]
                 ,[APayer]
         FROM [MarchesPubliques].[dbo].[MarcheExecution_View]
-        WHERE Numero LIKE '%2020%'
-           OR Numero LIKE '%2021%'
-           OR Numero LIKE '%2022%'
-           OR Numero LIKE '%2023%'
-           OR Numero LIKE '%2024%'
-           OR Numero LIKE '%2025%'
+        WHERE AnneeBudgetaire_IntituleFr >= 2020
         ORDER BY
-            [Id_Marche_Execution],
-            [Numero]
-    `
+            [AnneeBudgetaire_IntituleFr]    `
     return executeQuery(query)
 }
 
-export async function getResteAMandater() {
+// Update the getResteAMandater function to accept a year parameter
+export async function getResteAMandater(year?: string) {
+    // If a year is provided, add it to the WHERE clause
+    const yearFilter = year ? `WHERE AnneeBudgetaire_IntituleFr = '${year}'` : `WHERE AnneeBudgetaire_IntituleFr >='2020'`
+
     const query = `
-        SELECT [Id_Ligne_Budgetaire]
-                ,[Id_ParagrapheBudget_AnneeBudgetaire]
-                ,[IntituleFr]
-                ,[Numero]
-                ,[Montant]
-                ,[code]
-                ,[ParagrapheBudget_IntituleFr]
-                ,[Budget_IntituleFr]
-                ,[AnneeBudgetaire_IntituleFr]
-                ,[NumeroMarche]
-                ,[Id_Marche_Execution]
-                ,[TotalDepenses]
-                ,[RetourEngagement]
-                ,[Report]
-                ,[APayer]
-                ,[Id_Sous_Ordonnateur_IntituleFr]
-                ,[raison_social]
-                ,[LigneSource]
-                ,[Id_Type_Engagement_IntituleFr]
-                ,[Id_Annee_Budgetaire_IntituleFr]
-                ,[Id_Annee_Budgetaire]
-                ,[Id_Type_Depense]
-                ,[Id_Prestataire]
-                ,[Id_Sous_Ordonnateur]
-                ,[Id_Budget]
-                ,[Id_Chapitre_Budget]
-                ,[Id_Article_Budget]
-                ,[Id_Paragraphe_Budget]
-        FROM [MarchesPubliques].[dbo].[ResteAMandater]
-        WHERE AnneeBudgetaire_IntituleFr IN ('2023', '2024', '2025','2022','2021','2020')
-        ORDER BY
-            AnneeBudgetaire_IntituleFr DESC,
-            [Id_Ligne_Budgetaire]
-    `
+      SELECT [Id_Ligne_Budgetaire]
+              ,[Id_ParagrapheBudget_AnneeBudgetaire]
+              ,[IntituleFr]
+              ,[Numero]
+              ,[Montant]
+              ,[code]
+              ,[ParagrapheBudget_IntituleFr]
+              ,[Budget_IntituleFr]
+              ,[AnneeBudgetaire_IntituleFr]
+              ,[NumeroMarche]
+              ,[Id_Marche_Execution]
+              ,[TotalDepenses]
+              ,[RetourEngagement]
+              ,[Report]
+              ,[APayer]
+              ,[Id_Sous_Ordonnateur_IntituleFr]
+              ,[raison_social]
+              ,[LigneSource]
+              ,[Id_Type_Engagement_IntituleFr]
+              ,[Id_Annee_Budgetaire_IntituleFr]
+              ,[Id_Annee_Budgetaire]
+              ,[Id_Type_Depense]
+              ,[Id_Prestataire]
+              ,[Id_Sous_Ordonnateur]
+              ,[Id_Budget]
+              ,[Id_Chapitre_Budget]
+              ,[Id_Article_Budget]
+              ,[Id_Paragraphe_Budget]
+      FROM [MarchesPubliques].[dbo].[ResteAMandater]
+      ${yearFilter}
+      ORDER BY
+          AnneeBudgetaire_IntituleFr DESC
+  `
     return executeQuery(query)
 }
 
@@ -241,4 +232,16 @@ export async function getDetailsEngagementBCMarche() {
         WHERE Date_effet >='2020-01-01'
     `
     return executeQuery(query)
+}
+
+// Add a function to get available years for the filter
+export async function getAvailableYears() {
+    const query = `
+      SELECT DISTINCT [AnneeBudgetaire_IntituleFr] 
+      FROM [MarchesPubliques].[dbo].[ResteAMandater]
+      WHERE AnneeBudgetaire_IntituleFr IS NOT NULL
+      ORDER BY [AnneeBudgetaire_IntituleFr] DESC
+  `
+    const results = await executeQuery(query)
+    return results.map((row) => row.AnneeBudgetaire_IntituleFr.toString())
 }
