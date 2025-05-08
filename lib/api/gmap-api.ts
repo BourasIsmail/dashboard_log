@@ -88,7 +88,7 @@ export async function getActionsParRubrique() {
                 ,[Id_Sous_Ordonnateur]
                 ,[Id_Engagement]
         FROM [MarchesPubliques].[dbo].[ActionsParRubrique]
-        WHERE Date_effet >='2024-01-01'
+        WHERE Date_effet >='2020-01-01'
     `
     return executeQuery(query)
 }
@@ -124,7 +124,7 @@ export async function getEngagementAll() {
                 ,[typeBudget]
                 ,[sousOrdonnateur_Intitulefr]
         FROM [MarchesPubliques].[dbo].[EngagementAll]
-        WHERE Date_effet >='2024-01-01'
+        WHERE Date_effet >='2020-01-01'
     `
     return executeQuery(query)
 }
@@ -154,7 +154,15 @@ export async function getMarcheExecutionView() {
                 ,[total_InterMor]
                 ,[APayer]
         FROM [MarchesPubliques].[dbo].[MarcheExecution_View]
-        WHERE Numero like ('%2024%') or Numero like ('%2025%')
+            Numero LIKE '%2020%'
+            OR Numero LIKE '%2021%'
+            OR Numero LIKE '%2022%'
+            OR Numero LIKE '%2023%'
+            OR Numero LIKE '%2024%'
+            OR Numero LIKE '%2025%'
+        ORDER BY
+            [Id_Marche_Execution],
+            [Numero]
     `
     return executeQuery(query)
 }
@@ -190,7 +198,10 @@ export async function getResteAMandater() {
                 ,[Id_Article_Budget]
                 ,[Id_Paragraphe_Budget]
         FROM [MarchesPubliques].[dbo].[ResteAMandater]
-        WHERE AnneeBudgetaire_IntituleFr ='2025' or AnneeBudgetaire_IntituleFr ='2024'
+        WHERE AnneeBudgetaire_IntituleFr IN ('2023', '2024', '2025','2022','2021','2020')
+        ORDER BY
+            AnneeBudgetaire_IntituleFr DESC,
+            [Id_Ligne_Budgetaire]
     `
     return executeQuery(query)
 }
@@ -227,7 +238,7 @@ export async function getDetailsEngagementBCMarche() {
                 ,[LigneSource]
                 ,[IHM]
         FROM [MarchesPubliques].[dbo].[v_detailsEngagementBCMarche]
-        WHERE Date_effet >='2024-01-01'
+        WHERE Date_effet >='2020-01-01'
     `
     return executeQuery(query)
 }
